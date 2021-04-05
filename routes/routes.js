@@ -6,9 +6,8 @@ const loginRoutes = require("./login");
 
 const appRouter = (app, fs) => {
   
-
   userRoutes(app, fs);
-  categorieRoutes(app);
+  categorieRoutes(app,fs);
   checkoutRoutes(app, fs);
   productRoutes(app, fs);
   loginRoutes(app, fs);

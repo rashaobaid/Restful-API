@@ -41,7 +41,7 @@ class products {
     return Promise.resolve(this.data);
   }
 
-  // UPDATE categ
+  // UPDATE product
   updateProduct(id, info) {
     this.readFile();
     if(this.doesProductIdExist(id)){
@@ -52,7 +52,7 @@ class products {
     return Promise.reject({err:'product not found'});
     }
 
-  // DELETE categ
+  // DELETE product
   deleteProduct(id) {
     this.readFile();
     if(this.doesProductIdExist(id)){

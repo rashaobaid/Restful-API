@@ -1,12 +1,14 @@
 {
     "1": {
         "Id": 1,
-        "name": "ehab",
-        "pw": "10125"
+        "name": "rasha",
+        "email":"rasha-obaid@hotmail.com",
+        "password":"rasha123"
     },
     "2": {
         "Id": 2,
         "name": "mais",
-        "pw": "4565"
+        "email":"mais-obaid@hotmail.com",
+        "password":"mais123"
     }
 }

@@ -33,22 +33,33 @@ class categories {
 
   //   add new category
   creatCategory(info) {
-    console.log(info);
     this.readFile();
-    const newCategoryId = Object.keys(this.data).length + 1;
-    const newCategory = { Id: newCategoryId, ...info };
-    const category = { [newCategoryId]: newCategory, ...this.data };
+    let length_keys = Object.keys(this.data);
+    let newCategoryId=0
+    if( length_keys === undefined || length_keys.length ===0){
+      newCategoryId = newCategoryId+1
+    }
+    else{
+      length_keys = length_keys.map(id => parseInt(id))
+      newCategoryId = length_keys[length_keys.length-1] + 1
+    }
+    let categoryDate =` ${new Date().toJSON().slice(0,10)} ${new Date().toJSON().slice(11,19)}` ;
+    const newCategory = { Id: newCategoryId,date:categoryDate,...info  };
+    const category = {...this.data,[newCategoryId]: newCategory };
     this.writeFile(category);
+    this.readFile() //update this.data before return it back 
     return Promise.resolve(this.data);
-  
   }
 
-  // UPDATE categ
+  // UPDATE category
   updateCategory(id, info) {
     this.readFile();
     if(this.doesCategoryIdExist(id)){
-    this.data[id] = info;
+      const updatedCategory = {...this.data[id],name:info.name };
+    this.data[id] = updatedCategory;
+    console.log(this.datay) 
     this.writeFile(this.data);
+    this.readFile() //update this.data before return it back 
     return Promise.resolve(this.data);
     }
     return Promise.reject({err:'category not found'});
@@ -56,13 +67,24 @@ class categories {
 
   // DELETE categ
   deleteCategory(id) {
+    console.log(id)
     this.readFile();
     if(this.doesCategoryIdExist(id)){
     delete this.data[id];
+    console.log(this.data)
+    const keysa = Object.keys(this.data).length
+    console.log("after delete",keysa)
     this.writeFile(this.data);
+    this.readFile()
     return Promise.resolve(this.data);
     }
     return Promise.reject({err:'category not found'});
+  }
+
+  doesCategoryIdExist(id) {
+    console.log(!!this.getByIdSync(id));
+    return !!this.getByIdSync(id);
+    
   }
 
   // validateCategoryForAddition(catObjet)
@@ -88,9 +110,7 @@ class categories {
       isValid: !errors.length,
     };
   }
-  doesCategoryIdExist(id) {
-    return !!this.getByIdSync(id);
-  }
+  
 }
 const categoriesService = new categories(
   __dirname + "/../data/categories.json"

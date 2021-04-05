@@ -3,17 +3,17 @@ const loginRoutes = (app, fs) => {
   const readFile = () => JSON.parse(fs.readFileSync(dataPath));
   app.post("/login", (req, res) => {
     const data = readFile();
-    const name = req.body.name;
-    const pw = req.body.pw;
+    const email = req.body.email;
+    const password = req.body.password;
     var t = false;
     const user = Object.values(data).find(
-      (v) => v.name === name && v.pw === pw
-    ); // get all name
+      (user) => user.email === email && user.password === password
+    ); // get all user
 
     if (!!user) {
-      res.status(200).send({ message: "login Success" });
+      res.status(200).send({ message: "login Success",user });
     } else {
-      res.status(401).send({ message: "login Failed" });
+      res.status(401).send({errors: "login Failed" });
     }
   });
 };

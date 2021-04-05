@@ -20,7 +20,7 @@ class checkouts {
     return Promise.resolve(this.data);
   }
 
-  //   add new product
+  //   add new user
   creatcheckout(info) {
     this.readFile();
     const newcheckouttId = Object.keys(this.data).length + 1;

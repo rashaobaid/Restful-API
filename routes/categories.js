@@ -27,9 +27,13 @@ const categorieRoutes = (app) => {
       const category = req.body;
       categoriesService
         .creatCategory(category)
-        .then((data) => res.status(200).send({ message: "new category added" }))
-        .catch((err) => {
-          res.status(404);
+        .then((data) => {
+          const category_keys = Object.keys(data)
+          const last_key = category_keys[category_keys.length-1]
+          res.status(200).send({ message: "new category added", category: data[last_key]})
+        })
+        .catch((errors) => {
+          res.status(404).send({ errors: errors});
         });
     }
   });
@@ -37,18 +41,21 @@ const categorieRoutes = (app) => {
   // UPDATE
   app.put("/category/:id", (req, res) => {
     const validation = categoriesService.validateCategorie(req.body);
+    console.log("params", req.params)
+    console.log("body", req.body)
+    console.log("is update valud ? ", validation)
     if (!validation.isValid) {
       categoriesService.sendValidationErrorResp(res, validation);
     } else {
       const categoryId = req.params["id"];
       const category = req.body;
       categoriesService
-        .updateCategory(categoryId, category)
+        .updateCategory(categoryId, category) 
         .then((data) =>
-          res.send({ message: `category id:${categoryId} update` })
+          res.send({ message: `category id:${categoryId} update`, category: data[categoryId] })
         )
-        .catch((err) => {
-          res.status(404).send({ err: "category not found" });
+        .catch((errors) => {
+          res.status(404).send({errors: errors });
         });
     }
   });
@@ -58,11 +65,12 @@ const categorieRoutes = (app) => {
     const categoryId = req.params["id"];
     categoriesService
       .deleteCategory(categoryId)
-      .then((data) =>
+      .then((data) =>{
+       console.log( "from reouter",data) 
         res.send({ message: `category id:${categoryId} removed` })
-      )
-      .catch((err) => {
-        res.status(404).send({ err: "category not found" });
+     } )
+      .catch((errors) => {
+        res.status(404).send({errors: "category not found" });
       });
   });
 };

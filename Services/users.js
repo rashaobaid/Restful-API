@@ -20,7 +20,7 @@ class users {
         this.readFile();
         return Promise.resolve(this.data[id]);
     }
-    //   add new categ
+    //   add new user
     creatUser(info){
         this.readFile();
         const newuserId = Object.keys(this.data).length + 1;
@@ -30,7 +30,7 @@ class users {
        return Promise.resolve(this.data);
     }
 
-    // UPDATE categ
+    // UPDATE user info
     updateUser(id,info){
         this.readFile();
         this.data[id] = info;
@@ -38,7 +38,7 @@ class users {
        return Promise.resolve(this.data);
     }
 
-   // DELETE categ
+   // DELETE user info
    deleteUser(id){
         this.readFile();
         delete this.data[id]; 
